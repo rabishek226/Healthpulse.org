@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Health Dashboard | Community Health Hub</title>
+    <meta name="description" content="View aggregated health data and insights from our community health survey." />
+    <meta name="author" content="Health Pulse Community Initiative" />
+    <link rel="stylesheet" href="styles.css">
+    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
+    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="container">
+          <div class="logo">
+            <h1>HealthPulse</h1>
+          </div>
+          <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="survey.html">Survey</a></li>
+            <li><a href="dashboard.html" class="active">Dashboard</a></li>
+            <li><a href="survey.html" class="btn">Take Survey</a></li>
+          </ul>
+          <div class="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </nav>
+    </header>
+    
+    <div class="mobile-nav">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="survey.html">Survey</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="survey.html" class="btn">Take Survey</a></li>
+      </ul>
+    </div>
+
+    <section class="dashboard-header">
+      <div class="container">
+        <h1>Community Health Dashboard</h1>
+        <p>Explore health trends and insights based on survey data from our community.</p>
+        
+        <div class="filters">
+          <div class="filter-group">
+            <label for="age-filter">Age Group:</label>
+            <select id="age-filter">
+              <option value="all">All Ages</option>
+              <option value="18-24">18-24</option>
+              <option value="25-34">25-34</option>
+              <option value="35-44">35-44</option>
+              <option value="45-54">45-54</option>
+              <option value="55-64">55-64</option>
+              <option value="65+">65+</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="gender-filter">Gender:</label>
+            <select id="gender-filter">
+              <option value="all">All Genders</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="non-binary">Non-binary</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <button id="reset-filters" class="btn btn-outline">Reset Filters</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="dashboard-stats">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3>Total Responses</h3>
+            <p id="total-responses" class="stat">0</p>
+          </div>
+          <div class="stat-card">
+            <h3>Average Health Rating</h3>
+            <p id="avg-health" class="stat">N/A</p>
+          </div>
+          <div class="stat-card">
+            <h3>Insured Rate</h3>
+            <p id="insured-rate" class="stat">0%</p>
+          </div>
+          <div class="stat-card">
+            <h3>Most Common Condition</h3>
+            <p id="common-condition" class="stat">N/A</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="dashboard-charts">
+      <div class="container">
+        <div class="charts-row">
+          <div class="chart-container">
+            <h2>Overall Health Ratings</h2>
+            <canvas id="health-ratings-chart"></canvas>
+          </div>
+          <div class="chart-container">
+            <h2>Health Insurance Status</h2>
+            <canvas id="insurance-chart"></canvas>
+          </div>
+        </div>
+        
+        <div class="charts-row">
+          <div class="chart-container">
+            <h2>Healthcare Access Difficulty</h2>
+            <canvas id="access-chart"></canvas>
+          </div>
+          <div class="chart-container">
+            <h2>Last Healthcare Visit</h2>
+            <canvas id="last-visit-chart"></canvas>
+          </div>
+        </div>
+        
+        <div class="charts-row">
+          <div class="chart-container full-width">
+            <h2>Community Health Priorities</h2>
+            <canvas id="priorities-chart"></canvas>
+          </div>
+        </div>
+        
+        <div id="no-data" class="no-data" style="display:none;">
+          <h3>No survey data available yet</h3>
+          <p>Be the first to contribute by taking our health survey!</p>
+          <a href="survey.html" class="btn btn-primary">Take the Survey</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="insights">
+      <div class="container">
+        <h2>Key Health Insights</h2>
+        <div id="insights-container" class="insights-container">
+          <!-- Insights will be added here dynamically -->
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>About HealthPulse</h3>
+            <p>Improving community health outcomes through data-driven insights and collective action.</p>
+          </div>
+          <div class="footer-section">
+            <h3>Navigation</h3>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="survey.html">Survey</a></li>
+              <li><a href="dashboard.html">Dashboard</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>Legal</h3>
+            <ul>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Service</a></li>
+              <li><a href="#">Data Usage</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>Contact</h3>
+            <p>Email: contact@healthpulse.org</p>
+            <p>Phone: (555) 123-4567</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; <span id="current-year"></span> HealthPulse. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Mobile menu toggle
+        const mobileMenuButton = document.querySelector('.mobile-menu');
+        const mobileNav = document.querySelector('.mobile-nav');
+        
+        mobileMenuButton.addEventListener('click', function() {
+          mobileMenuButton.classList.toggle('active');
+          mobileNav.classList.toggle('active');
+        });
+        
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        // Check if there's survey data in localStorage
+        const surveyData = JSON.parse(localStorage.getItem('healthSurveys') || '[]');
+        
+        // If no data, show the no-data message and hide charts
+        if (surveyData.length === 0) {
+          document.getElementById('no-data').style.display = 'block';
+          document.querySelectorAll('.chart-container').forEach(container => {
+            container.style.display = 'none';
+          });
+          document.querySelector('.stats-grid').style.display = 'none';
+          document.querySelector('.insights-container').style.display = 'none';
+          return;
+        }
+        
+        // Create sample data if none exists (for demo purposes)
+        if (surveyData.length < 5) {
+          const sampleData = generateSampleData(10);
+          localStorage.setItem('healthSurveys', JSON.stringify([...surveyData, ...sampleData]));
+          location.reload(); // Reload to use the new data
+          return;
+        }
+        
+        // Filters
+        const ageFilter = document.getElementById('age-filter');
+        const genderFilter = document.getElementById('gender-filter');
+        const resetFiltersButton = document.getElementById('reset-filters');
+        
+        // Initialize filter function
+        function applyFilters() {
+          const ageValue = ageFilter.value;
+          const genderValue = genderFilter.value;
+          
+          let filteredData = surveyData;
+          
+          // Apply age filter if not "all"
+          if (ageValue !== 'all') {
+            filteredData = filteredData.filter(survey => survey['age-group'] === ageValue);
+          }
+          
+          // Apply gender filter if not "all"
+          if (genderValue !== 'all') {
+            filteredData = filteredData.filter(survey => survey['gender'] === genderValue);
+          }
+          
+          // Update all charts and stats with the filtered data
+          updateDashboard(filteredData);
+        }
+        
+        // Add event listeners to filters
+        ageFilter.addEventListener('change', applyFilters);
+        genderFilter.addEventListener('change', applyFilters);
+        
+        resetFiltersButton.addEventListener('click', function() {
+          ageFilter.value = 'all';
+          genderFilter.value = 'all';
+          applyFilters();
+        });
+        
+        // Initial dashboard update with all data
+        updateDashboard(surveyData);
+        
+        // Function to update all dashboard elements
+        function updateDashboard(data) {
+          updateStats(data);
+          updateCharts(data);
+          generateInsights(data);
+        }
+        
+        // Update stats section
+        function updateStats(data) {
+          // Total responses
+          document.getElementById('total-responses').textContent = data.length;
+          
+          // Average health rating
+          const healthMap = {
+            'excellent': 5,
+            'very-good': 4,
+            'good': 3,
+            'fair': 2,
+            'poor': 1
+          };
+          
+          const healthRatings = data
+            .filter(survey => survey['overall-health'])
+            .map(survey => healthMap[survey['overall-health']] || 0);
+          
+          const avgHealth = healthRatings.length > 0 
+            ? (healthRatings.reduce((sum, rating) => sum + rating, 0) / healthRatings.length).toFixed(1)
+            : 'N/A';
+          
+          document.getElementById('avg-health').textContent = avgHealth;
+          
+          // Insured rate
+          const insuredCount = data.filter(survey => survey['has-insurance'] === 'yes').length;
+          const insuredRate = data.length > 0 
+            ? Math.round((insuredCount / data.length) * 100) + '%'
+            : '0%';
+          
+          document.getElementById('insured-rate').textContent = insuredRate;
+          
+          // Most common condition
+          const conditionCounts = {};
+          data.forEach(survey => {
+            if (Array.isArray(survey.conditions)) {
+              survey.conditions.forEach(condition => {
+                conditionCounts[condition] = (conditionCounts[condition] || 0) + 1;
+              });
+            }
+          });
+          
+          // Get condition with highest count
+          let mostCommonCondition = 'N/A';
+          let highestCount = 0;
+          
+          for (const condition in conditionCounts) {
+            if (condition !== 'none' && conditionCounts[condition] > highestCount) {
+              mostCommonCondition = formatConditionName(condition);
+              highestCount = conditionCounts[condition];
+            }
+          }
+          
+          document.getElementById('common-condition').textContent = mostCommonCondition;
+        }
+        
+        // Update all charts
+        function updateCharts(data) {
+          updateHealthRatingsChart(data);
+          updateInsuranceChart(data);
+          updateAccessChart(data);
+          updateLastVisitChart(data);
+          updatePrioritiesChart(data);
+        }
+        
+        // Update health ratings chart
+        function updateHealthRatingsChart(data) {
+          const healthCounts = {
+            'excellent': 0,
+            'very-good': 0,
+            'good': 0,
+            'fair': 0,
+            'poor': 0
+          };
+          
+          data.forEach(survey => {
+            if (survey['overall-health'] && healthCounts.hasOwnProperty(survey['overall-health'])) {
+              healthCounts[survey['overall-health']]++;
+            }
+          });
+          
+          const ctx = document.getElementById('health-ratings-chart').getContext('2d');
+          
+          // Destroy existing chart if it exists
+          if (window.healthRatingsChart) {
+            window.healthRatingsChart.destroy();
+          }
+          
+          window.healthRatingsChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: ['Excellent', 'Very Good', 'Good', 'Fair', 'Poor'],
+              datasets: [{
+                label: 'Health Ratings',
+                data: [
+                  healthCounts.excellent,
+                  healthCounts['very-good'],
+                  healthCounts.good,
+                  healthCounts.fair,
+                  healthCounts.poor
+                ],
+                backgroundColor: [
+                  'rgba(46, 204, 113, 0.7)',
+                  'rgba(52, 152, 219, 0.7)',
+                  'rgba(241, 196, 15, 0.7)',
+                  'rgba(230, 126, 34, 0.7)',
+                  'rgba(231, 76, 60, 0.7)'
+                ],
+                borderColor: [
+                  'rgba(46, 204, 113, 1)',
+                  'rgba(52, 152, 219, 1)',
+                  'rgba(241, 196, 15, 1)',
+                  'rgba(230, 126, 34, 1)',
+                  'rgba(231, 76, 60, 1)'
+                ],
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: {
+                    precision: 0
+                  }
+                }
+              }
+            }
+          });
+        }
+        
+        // Update insurance chart
+        function updateInsuranceChart(data) {
+          const insuranceCounts = {
+            'yes': 0,
+            'no': 0,
+            'not-sure': 0
+          };
+          
+          data.forEach(survey => {
+            if (survey['has-insurance'] && insuranceCounts.hasOwnProperty(survey['has-insurance'])) {
+              insuranceCounts[survey['has-insurance']]++;
+            }
+          });
+          
+          const ctx = document.getElementById('insurance-chart').getContext('2d');
+          
+          // Destroy existing chart if it exists
+          if (window.insuranceChart) {
+            window.insuranceChart.destroy();
+          }
+          
+          window.insuranceChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+              labels: ['Insured', 'Uninsured', 'Not Sure'],
+              datasets: [{
+                data: [insuranceCounts.yes, insuranceCounts.no, insuranceCounts['not-sure']],
+                backgroundColor: [
+                  'rgba(46, 204, 113, 0.7)',
+                  'rgba(231, 76, 60, 0.7)',
+                  'rgba(241, 196, 15, 0.7)'
+                ],
+                borderColor: [
+                  'rgba(46, 204, 113, 1)',
+                  'rgba(231, 76, 60, 1)',
+                  'rgba(241, 196, 15, 1)'
+                ],
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  position: 'bottom'
+                }
+              }
+            }
+          });
+        }
+        
+        // Update healthcare access chart
+        function updateAccessChart(data) {
+          const accessCounts = {
+            'very-easy': 0,
+            'easy': 0,
+            'neutral': 0,
+            'difficult': 0,
+            'very-difficult': 0
+          };
+          
+          data.forEach(survey => {
+            if (survey['healthcare-access'] && accessCounts.hasOwnProperty(survey['healthcare-access'])) {
+              accessCounts[survey['healthcare-access']]++;
+            }
+          });
+          
+          const ctx = document.getElementById('access-chart').getContext('2d');
+          
+          // Destroy existing chart if it exists
+          if (window.accessChart) {
+            window.accessChart.destroy();
+          }
+          
+          window.accessChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: ['Very Easy', 'Easy', 'Neutral', 'Difficult', 'Very Difficult'],
+              datasets: [{
+                label: 'Healthcare Access Difficulty',
+                data: [
+                  accessCounts['very-easy'],
+                  accessCounts.easy,
+                  accessCounts.neutral,
+                  accessCounts.difficult,
+                  accessCounts['very-difficult']
+                ],
+                backgroundColor: 'rgba(52, 152, 219, 0.7)',
+                borderColor: 'rgba(52, 152, 219, 1)',
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: {
+                    precision: 0
+                  }
+                }
+              }
+            }
+          });
+        }
+        
+        // Update last visit chart
+        function updateLastVisitChart(data) {
+          const visitCounts = {
+            'within-6-months': 0,
+            '6-12-months': 0,
+            '1-2-years': 0,
+            '2-5-years': 0,
+            '5-plus-years': 0,
+            'never': 0
+          };
+          
+          data.forEach(survey => {
+            if (survey['last-visit'] && visitCounts.hasOwnProperty(survey['last-visit'])) {
+              visitCounts[survey['last-visit']]++;
+            }
+          });
+          
+          const ctx = document.getElementById('last-visit-chart').getContext('2d');
+          
+          // Destroy existing chart if it exists
+          if (window.lastVisitChart) {
+            window.lastVisitChart.destroy();
+          }
+          
+          window.lastVisitChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+              labels: [
+                'Within 6 months', 
+                '6-12 months ago', 
+                '1-2 years ago', 
+                '2-5 years ago',
+                '5+ years ago',
+                'Never'
+              ],
+              datasets: [{
+                data: [
+                  visitCounts['within-6-months'],
+                  visitCounts['6-12-months'],
+                  visitCounts['1-2-years'],
+                  visitCounts['2-5-years'],
+                  visitCounts['5-plus-years'],
+                  visitCounts.never
+                ],
+                backgroundColor: [
+                  'rgba(46, 204, 113, 0.7)',
+                  'rgba(52, 152, 219, 0.7)',
+                  'rgba(241, 196, 15, 0.7)',
+                  'rgba(230, 126, 34, 0.7)',
+                  'rgba(231, 76, 60, 0.7)',
+                  'rgba(155, 89, 182, 0.7)'
+                ],
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  position: 'bottom',
+                  labels: {
+                    boxWidth: 12
+                  }
+                }
+              }
+            }
+          });
+        }
+        
+        // Update priorities chart
+        function updatePrioritiesChart(data) {
+          const priorityCounts = {
+            'mental-health': 0,
+            'substance-abuse': 0,
+            'chronic-disease': 0,
+            'nutrition': 0,
+            'physical-activity': 0,
+            'preventive-care': 0,
+            'maternal-child': 0,
+            'senior': 0
+          };
+          
+          data.forEach(survey => {
+            if (Array.isArray(survey['health-priorities'])) {
+              survey['health-priorities'].forEach(priority => {
+                if (priorityCounts.hasOwnProperty(priority)) {
+                  priorityCounts[priority]++;
+                }
+              });
+            }
+          });
+          
+          const ctx = document.getElementById('priorities-chart').getContext('2d');
+          
+          // Destroy existing chart if it exists
+          if (window.prioritiesChart) {
+            window.prioritiesChart.destroy();
+          }
+          
+          window.prioritiesChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: [
+                'Mental Health', 
+                'Substance Abuse', 
+                'Chronic Disease', 
+                'Nutrition', 
+                'Physical Activity',
+                'Preventive Care',
+                'Maternal & Child',
+                'Senior Health'
+              ],
+              datasets: [{
+                label: 'Health Priorities',
+                data: [
+                  priorityCounts['mental-health'],
+                  priorityCounts['substance-abuse'],
+                  priorityCounts['chronic-disease'],
+                  priorityCounts.nutrition,
+                  priorityCounts['physical-activity'],
+                  priorityCounts['preventive-care'],
+                  priorityCounts['maternal-child'],
+                  priorityCounts.senior
+                ],
+                backgroundColor: 'rgba(0, 168, 232, 0.7)',
+                borderColor: 'rgba(0, 168, 232, 1)',
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: {
+                    precision: 0
+                  }
+                }
+              }
+            }
+          });
+        }
+        
+        // Generate insights based on the data
+        function generateInsights(data) {
+          const insightsContainer = document.getElementById('insights-container');
+          insightsContainer.innerHTML = ''; // Clear existing insights
+          
+          // Only generate insights if we have enough data
+          if (data.length < 5) {
+            const noInsightsMessage = document.createElement('div');
+            noInsightsMessage.className = 'no-data';
+            noInsightsMessage.innerHTML = '<h3>Not enough data for insights</h3><p>More survey responses are needed to generate meaningful insights.</p>';
+            insightsContainer.appendChild(noInsightsMessage);
+            return;
+          }
+          
+          // Generate insights based on the data
+          const insights = [
+            getHealthRatingInsight(data),
+            getInsuranceInsight(data),
+            getAccessInsight(data),
+            getPriorityInsight(data),
+            getConditionInsight(data)
+          ];
+          
+          // Add insights to the container
+          insights.forEach(insight => {
+            if (insight) {
+              const insightItem = document.createElement('div');
+              insightItem.className = 'insight-item';
+              insightItem.innerHTML = `
+                <div class="insight-title">
+                  <span>${insight.title}</span>
+                </div>
+                <p>${insight.text}</p>
+              `;
+              insightsContainer.appendChild(insightItem);
+            }
+          });
+        }
+        
+        // Helper functions for generating insights
+        function getHealthRatingInsight(data) {
+          const healthMap = {
+            'excellent': 5,
+            'very-good': 4,
+            'good': 3,
+            'fair': 2,
+            'poor': 1
+          };
+          
+          const healthRatings = data
+            .filter(survey => survey['overall-health'])
+            .map(survey => healthMap[survey['overall-health']] || 0);
+          
+          if (healthRatings.length === 0) return null;
+          
+          const avgRating = healthRatings.reduce((sum, rating) => sum + rating, 0) / healthRatings.length;
+          
+          let insightText = '';
+          if (avgRating >= 4) {
+            insightText = 'Most respondents rate their health as very good or excellent, suggesting a generally healthy population.';
+          } else if (avgRating >= 3) {
+            insightText = 'Most respondents rate their health as good, indicating moderate health levels in the community.';
+          } else {
+            insightText = 'Many respondents rate their health as fair or poor, suggesting health challenges in the community.';
+          }
+          
+          return {
+            title: 'Health Self-Assessment',
+            text: insightText
+          };
+        }
+        
+        function getInsuranceInsight(data) {
+          const insuredCount = data.filter(survey => survey['has-insurance'] === 'yes').length;
+          const uninsuredCount = data.filter(survey => survey['has-insurance'] === 'no').length;
+          
+          if (insuredCount === 0 && uninsuredCount === 0) return null;
+          
+          const insuredRate = (insuredCount / (insuredCount + uninsuredCount)) * 100;
+          
+          let insightText = '';
+          if (insuredRate >= 90) {
+            insightText = 'Most community members (90%+) report having health insurance, suggesting good coverage.';
+          } else if (insuredRate >= 75) {
+            insightText = 'While most have health insurance, a significant minority lacks coverage, which may impact care access.';
+          } else {
+            insightText = 'A large portion of the community lacks health insurance, which may be a significant barrier to healthcare.';
+          }
+          
+          return {
+            title: 'Insurance Coverage',
+            text: insightText
+          };
+        }
+        
+        function getAccessInsight(data) {
+          const accessCounts = {
+            'very-easy': 0,
+            'easy': 0,
+            'neutral': 0,
+            'difficult': 0,
+            'very-difficult': 0
+          };
+          
+          data.forEach(survey => {
+            if (survey['healthcare-access'] && accessCounts.hasOwnProperty(survey['healthcare-access'])) {
+              accessCounts[survey['healthcare-access']]++;
+            }
+          });
+          
+          const totalResponses = Object.values(accessCounts).reduce((sum, count) => sum + count, 0);
+          if (totalResponses === 0) return null;
+          
+          const difficultAccess = accessCounts.difficult + accessCounts['very-difficult'];
+          const difficultRate = (difficultAccess / totalResponses) * 100;
+          
+          let insightText = '';
+          if (difficultRate >= 50) {
+            insightText = 'Many community members report difficulty accessing healthcare, suggesting significant barriers that need addressing.';
+          } else if (difficultRate >= 25) {
+            insightText = 'Some community members face challenges accessing healthcare, indicating moderate barriers that could be improved.';
+          } else {
+            insightText = 'Most community members find healthcare accessible, suggesting few barriers to receiving care.';
+          }
+          
+          return {
+            title: 'Healthcare Accessibility',
+            text: insightText
+          };
+        }
+        
+        function getPriorityInsight(data) {
+          const priorityCounts = {};
+          
+          data.forEach(survey => {
+            if (Array.isArray(survey['health-priorities'])) {
+              survey['health-priorities'].forEach(priority => {
+                priorityCounts[priority] = (priorityCounts[priority] || 0) + 1;
+              });
+            }
+          });
+          
+          if (Object.keys(priorityCounts).length === 0) return null;
+          
+          // Find top 2 priorities
+          const sortedPriorities = Object.entries(priorityCounts)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 2)
+            .map(([priority]) => formatPriorityName(priority));
+          
+          if (sortedPriorities.length === 0) return null;
+          
+          return {
+            title: 'Community Priorities',
+            text: `The top health priorities identified by the community are ${sortedPriorities[0]} and ${sortedPriorities[1] || 'none'}, indicating where resources may be most needed.`
+          };
+        }
+        
+        function getConditionInsight(data) {
+          const conditionCounts = {};
+          
+          data.forEach(survey => {
+            if (Array.isArray(survey.conditions)) {
+              survey.conditions.forEach(condition => {
+                if (condition !== 'none') {
+                  conditionCounts[condition] = (conditionCounts[condition] || 0) + 1;
+                }
+              });
+            }
+          });
+          
+          if (Object.keys(conditionCounts).length === 0) return null;
+          
+          // Find most common condition
+          const sortedConditions = Object.entries(conditionCounts)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 1)
+            .map(([condition]) => formatConditionName(condition));
+          
+          if (sortedConditions.length === 0) return null;
+          
+          return {
+            title: 'Common Health Conditions',
+            text: `${sortedConditions[0]} is the most commonly reported health condition in the community, suggesting a need for related services and support.`
+          };
+        }
+        
+        // Helper function to format condition names for display
+        function formatConditionName(condition) {
+          const conditionMap = {
+            'hypertension': 'Hypertension',
+            'diabetes': 'Diabetes',
+            'heart-disease': 'Heart Disease',
+            'respiratory': 'Respiratory Conditions',
+            'mental-health': 'Mental Health Conditions',
+            'other': 'Other Conditions'
+          };
+          
+          return conditionMap[condition] || condition;
+        }
+        
+        // Helper function to format priority names for display
+        function formatPriorityName(priority) {
+          const priorityMap = {
+            'mental-health': 'Mental Health Services',
+            'substance-abuse': 'Substance Abuse Treatment',
+            'chronic-disease': 'Chronic Disease Management',
+            'nutrition': 'Nutrition & Food Access',
+            'physical-activity': 'Physical Activity',
+            'preventive-care': 'Preventive Care',
+            'maternal-child': 'Maternal & Child Health',
+            'senior': 'Senior Health Services'
+          };
+          
+          return priorityMap[priority] || priority;
+        }
+        
+        // Generate sample data for demo purposes
+        function generateSampleData(count) {
+          const sampleData = [];
+          
+          const ageGroups = ['18-24', '25-34', '35-44', '45-54', '55-64', '65+'];
+          const genders = ['male', 'female', 'non-binary', 'other'];
+          const healthRatings = ['excellent', 'very-good', 'good', 'fair', 'poor'];
+          const hasInsurance = ['yes', 'no', 'not-sure'];
+          const healthcareAccess = ['very-easy', 'easy', 'neutral', 'difficult', 'very-difficult'];
+          const lastVisit = ['within-6-months', '6-12-months', '1-2-years', '2-5-years', '5-plus-years', 'never'];
+          const conditions = ['hypertension', 'diabetes', 'heart-disease', 'respiratory', 'mental-health', 'none', 'other'];
+          const healthPriorities = [
+            'mental-health', 'substance-abuse', 'chronic-disease', 'nutrition', 
+            'physical-activity', 'preventive-care', 'maternal-child', 'senior'
+          ];
+          
+          for (let i = 0; i < count; i++) {
+            // Generate random survey data
+            const survey = {
+              'age-group': ageGroups[Math.floor(Math.random() * ageGroups.length)],
+              'gender': genders[Math.floor(Math.random() * genders.length)],
+              'zip-code': String(10000 + Math.floor(Math.random() * 90000)),
+              'overall-health': healthRatings[Math.floor(Math.random() * healthRatings.length)],
+              'has-insurance': hasInsurance[Math.floor(Math.random() * hasInsurance.length)],
+              'healthcare-access': healthcareAccess[Math.floor(Math.random() * healthcareAccess.length)],
+              'last-visit': lastVisit[Math.floor(Math.random() * lastVisit.length)],
+              'timestamp': new Date(Date.now() - Math.floor(Math.random() * 30) * 24 * 60 * 60 * 1000).toISOString()
+            };
+            
+            // Generate random conditions (0-3)
+            const conditionCount = Math.floor(Math.random() * 4);
+            if (conditionCount > 0) {
+              survey.conditions = [];
+              const shuffledConditions = [...conditions].sort(() => 0.5 - Math.random());
+              for (let j = 0; j < conditionCount; j++) {
+                survey.conditions.push(shuffledConditions[j]);
+              }
+              
+              // If 'none' is in the conditions, make it the only condition
+              if (survey.conditions.includes('none')) {
+                survey.conditions = ['none'];
+              }
+            } else {
+              survey.conditions = ['none'];
+            }
+            
+            // Generate random health priorities (1-3)
+            const priorityCount = 1 + Math.floor(Math.random() * 3);
+            survey['health-priorities'] = [];
+            const shuffledPriorities = [...healthPriorities].sort(() => 0.5 - Math.random());
+            for (let j = 0; j < priorityCount; j++) {
+              survey['health-priorities'].push(shuffledPriorities[j]);
+            }
+            
+            // Add a random suggestion (50% chance)
+            if (Math.random() > 0.5) {
+              const suggestions = [
+                "We need more mental health services in the community.",
+                "More affordable healthcare options would help many people.",
+                "The community needs better transportation to medical facilities.",
+                "More preventive health education programs would be beneficial.",
+                "We need more healthcare providers in rural areas."
+              ];
+              
+              survey.suggestions = suggestions[Math.floor(Math.random() * suggestions.length)];
+            }
+            
+            // Add to sample data
+            sampleData.push(survey);
+          }
+          
+          return sampleData;
+        }
+      });
+    </script>
+  </body>
+</html>
